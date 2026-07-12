@@ -655,9 +655,7 @@ export function Login() {
               )}
 
               <div className="mt-5 p-3 bg-white/[0.01] border border-white/[0.03] rounded-xl text-center">
-                <p className="text-blue-400/60 text-[11px] font-mono">
-                  Preset Node: <span className="text-blue-200 bg-slate-900 px-1.5 py-0.5 rounded">admin</span> / <span className="text-blue-200 bg-slate-900 px-1.5 py-0.5 rounded">Admin1234!</span>
-                </p>
+                
               </div>
 
               <div className="mt-6 pt-4 border-t border-white/[0.03] grid grid-cols-2 gap-2 text-[10px] text-blue-300/70 font-mono">
