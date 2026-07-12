@@ -1,5 +1,5 @@
 ﻿import { useState, useEffect } from 'react';
-import { BookOpen, Plus, Search, Filter } from 'lucide-react';
+import { BookOpen, Plus, Search, Filter, Eye, Pencil, Trash2 } from 'lucide-react';
 import chartOfAccountsService, { type ChartOfAccount } from '@/services/chartOfAccountsService';
 import { Modal, FormField, DetailRow, ModalBtn, inputCls, selectCls } from '@/app/components/ui/Modal';
 
@@ -47,7 +47,13 @@ export function ChartOfAccounts() {
               <td className="px-4 py-4 text-sm text-gray-600">{a.accountType}</td>
               <td className="px-4 py-4 text-sm text-gray-600">{a.description??'-'}</td>
               <td className="px-4 py-4"><span className="px-2.5 py-0.5 rounded-full text-xs font-medium">{a.isActive?'Active':'Inactive'}</span></td>
-              <td className="px-4 py-4 text-sm"><div className="flex gap-2"><button onClick={()=>{setSelected(a);setModal('view');}} className="text-blue-600 hover:text-blue-800">View</button><button onClick={()=>openEdit(a)} className="text-yellow-600 hover:text-yellow-800">Edit</button><button onClick={()=>{setSelected(a);setModal('delete');}} className="text-red-600 hover:text-red-800">Delete</button></div></td>
+              <td className="px-4 py-4 text-sm">
+                <div className="flex gap-3">
+                  <button onClick={()=>{setSelected(a);setModal('view');}} title="View" className="text-blue-600 hover:text-blue-800"><Eye className="w-4 h-4" /></button>
+                  <button onClick={()=>openEdit(a)} title="Edit" className="text-yellow-600 hover:text-yellow-800"><Pencil className="w-4 h-4" /></button>
+                  <button onClick={()=>{setSelected(a);setModal('delete');}} title="Delete" className="text-red-600 hover:text-red-800"><Trash2 className="w-4 h-4" /></button>
+                </div>
+              </td>
             </tr>
           ))}
           </tbody>
