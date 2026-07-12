@@ -21,7 +21,6 @@ export function Departments() {
     setLoading(true);
     try {
       const res = await departmentService.getAll();
-      // departmentService.getAll() returns an array (based on your earlier code)
       setDepts(Array.isArray(res) ? res : (res as any)?.content ?? []);
     } catch (err) {
       console.error('Failed to load departments', err);
@@ -132,7 +131,6 @@ export function Departments() {
 
       {/* Table */}
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-<<<<<<< HEAD
         {loading ? (
           <div className="p-8 text-center text-gray-400">Loading data...</div>
         ) : (
@@ -142,37 +140,6 @@ export function Departments() {
                 {['Code', 'Name', 'Description', 'Status', 'Actions'].map(h => (
                   <th key={h} className="text-left px-4 py-3 text-sm font-semibold text-gray-900">{h}</th>
                 ))}
-=======
-        {loading && depts.length === 0 ? <div className="p-8 text-center text-gray-400">Loading data...</div> : (
-        <table className="w-full">
-          <thead className="bg-gray-50 border-b border-gray-200">
-            <tr>
-              {['Code', 'Name', 'Description', 'Status', 'Action'].map(h => <th key={h} className="text-left px-4 py-3 text-sm font-semibold text-gray-900">{h}</th>)}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {filtered.map(d => (
-              <tr key={d.id} className="hover:bg-gray-50">
-                <td className="px-4 py-4 text-sm font-medium text-gray-900">{d.code}</td>
-                <td className="px-4 py-4 text-sm text-gray-900">{d.name}</td>
-                <td className="px-4 py-4 text-sm text-gray-600">{d.description ?? '-'}</td>
-                <td className="px-4 py-4">
-                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[String(d.isActive)]}`}>
-                    {d.isActive ? 'Active' : 'Inactive'}
-                  </span>
-                </td>
-                <td className="px-4 py-4 text-sm">
-                  <div className="flex gap-3 items-center">
-                    <button onClick={() => { setSelected(d); setModal('view'); }} className="text-blue-600 hover:text-blue-800 font-medium">View</button>
-                    <button onClick={() => openEdit(d)} className="text-yellow-600 hover:text-yellow-700 flex items-center" aria-label="Edit">
-                      <Pencil className="w-4 h-4" />
-                    </button>
-                    <button onClick={() => { setSelected(d); setModal('delete'); }} className="text-red-600 hover:text-red-700 flex items-center" aria-label="Delete">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                </td>
->>>>>>> 8ae48fb0c8e024730d17f36ebdbdbdc9dd0d3255
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -187,10 +154,14 @@ export function Departments() {
                     </span>
                   </td>
                   <td className="px-4 py-4 text-sm">
-                    <div className="flex gap-2">
-                      <button onClick={() => { setSelected(d); setModal('view'); }} className="text-blue-600 hover:text-blue-800">View</button>
-                      <button onClick={() => openEdit(d)} className="text-yellow-600 hover:text-yellow-800">Edit</button>
-                      <button onClick={() => { setSelected(d); setModal('delete'); }} className="text-red-600 hover:text-red-800">Delete</button>
+                    <div className="flex gap-3 items-center">
+                      <button onClick={() => { setSelected(d); setModal('view'); }} className="text-blue-600 hover:text-blue-800 font-medium">View</button>
+                      <button onClick={() => openEdit(d)} className="text-yellow-600 hover:text-yellow-700" aria-label="Edit">
+                        <Pencil className="w-4 h-4" />
+                      </button>
+                      <button onClick={() => { setSelected(d); setModal('delete'); }} className="text-red-600 hover:text-red-700" aria-label="Delete">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
                   </td>
                 </tr>
