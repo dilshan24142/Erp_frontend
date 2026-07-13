@@ -75,8 +75,10 @@ export function AccountsPayable() {
   };
 
   const handleSubmit = async () => {
+    const vendor = vendors.find(item => item.id === form.vendorId);
+
     const payload = {
-      vendor: form.vendorId ? { id: form.vendorId } : null,
+      vendor: form.vendorId ? { id: form.vendorId, name: vendor?.name ?? '' } : undefined,
       invoiceNumber: form.invoiceNumber,
       invoiceDate: form.invoiceDate,
       dueDate: form.dueDate,

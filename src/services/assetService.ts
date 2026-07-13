@@ -1,10 +1,48 @@
 import api from './api';
-import type { PageResponse } from './employeeService';
 
-export interface Asset { /* ... same as before ... */ }
-export interface AssetMaintenance { /* ... */ }
-export interface AssetTransfer { /* ... */ }
-export interface AssetDepreciation { /* ... */ }
+export interface Asset {
+  id: number;
+  assetCode: string;
+  name: string;
+  category?: string;
+  location?: string;
+  purchaseDate?: string;
+  purchasePrice?: number;
+  status?: string;
+  description?: string;
+}
+
+export interface AssetMaintenance {
+  id: number;
+  assetId?: number;
+  asset?: Asset;
+  maintenanceType?: string;
+  scheduledDate?: string;
+  cost?: number;
+  status?: string;
+  description?: string;
+}
+export interface AssetTransfer {
+  id: number;
+  assetId?: number;
+  asset?: Asset;
+  fromLocation?: string;
+  toLocation?: string;
+  transferDate?: string;
+  status?: string;
+  reason?: string;
+}
+export interface AssetDepreciation {
+  id: number;
+  assetId?: number;
+  asset?: Asset;
+  periodYear?: number;
+  periodMonth?: number;
+  openingValue?: number;
+  depreciation?: number;
+  closingValue?: number;
+  method?: string;
+}
 
 const assetService = {
   // ---------- Assets ----------

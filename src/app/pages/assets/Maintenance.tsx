@@ -64,8 +64,7 @@ export function Maintenance() {
   };
 
   const handleSubmit = () => {
-    const payload = { ...form, asset: { id: form.assetId } };
-    delete (payload as any).assetId;
+    const payload = { ...form };
 
     if (selected) {
       assetService.updateMaintenance(selected.id, payload)
@@ -131,7 +130,7 @@ export function Maintenance() {
                   <td className="px-4 py-4 text-sm text-gray-600">{r.scheduledDate ?? '-'}</td>
                   <td className="px-4 py-4 text-sm font-semibold text-gray-900">{fmt(r.cost)}</td>
                   <td className="px-4 py-4">
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[r.status] ?? 'bg-gray-100 text-gray-800'}`}>
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[r.status ?? ''] ?? 'bg-gray-100 text-gray-800'}`}>
                       {r.status}
                     </span>
                   </td>

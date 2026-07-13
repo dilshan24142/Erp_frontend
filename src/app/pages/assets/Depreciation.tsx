@@ -46,8 +46,7 @@ export function Depreciation() {
   };
 
   const handleSubmit = () => {
-    const payload = { ...form, asset: { id: form.assetId } };
-    delete (payload as any).assetId;
+    const payload = { ...form };
     if (selected) {
       assetService.updateDepreciation(selected.id, payload)
         .then(() => { load(); close(); }).catch(console.error);

@@ -75,12 +75,17 @@ export function Activities() {
   };
 
   const handleSubmit = () => {
+    const lead = leads.find(item => item.id === form.leadId);
+    const opportunity = opportunities.find(item => item.id === form.opportunityId);
+    const customer = customers.find(item => item.id === form.customerId);
+    const assignedTo = employees.find(item => item.id === form.assignedToId);
+
     const payload = {
       ...form,
-      lead: form.leadId ? { id: form.leadId } : null,
-      opportunity: form.opportunityId ? { id: form.opportunityId } : null,
-      customer: form.customerId ? { id: form.customerId } : null,
-      assignedTo: form.assignedToId ? { id: form.assignedToId } : null,
+      lead: form.leadId ? { id: form.leadId, company: lead?.company ?? `${lead?.firstName ?? ''} ${lead?.lastName ?? ''}`.trim() } : undefined,
+      opportunity: form.opportunityId ? { id: form.opportunityId, name: opportunity?.name ?? '' } : undefined,
+      customer: form.customerId ? { id: form.customerId, companyName: customer?.companyName ?? customer?.name ?? '' } : undefined,
+      assignedTo: form.assignedToId ? { id: form.assignedToId, fullName: assignedTo?.fullName ?? '' } : undefined,
     };
     delete (payload as any).leadId;
     delete (payload as any).opportunityId;

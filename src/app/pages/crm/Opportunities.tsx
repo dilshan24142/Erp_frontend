@@ -75,10 +75,13 @@ export function Opportunities() {
   };
 
   const handleSubmit = () => {
+    const customer = customers.find(item => item.id === form.customerId);
+    const lead = leads.find(item => item.id === form.leadId);
+
     const payload = {
       ...form,
-      customer: form.customerId ? { id: form.customerId } : null,
-      lead: form.leadId ? { id: form.leadId } : null,
+      customer: form.customerId ? { id: form.customerId, name: customer?.name ?? '' } : undefined,
+      lead: form.leadId ? { id: form.leadId, company: lead?.company ?? '' } : undefined,
     };
     delete (payload as any).customerId;
     delete (payload as any).leadId;

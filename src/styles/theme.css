@@ -1,4 +1,6 @@
+/* stylelint-disable at-rule-no-unknown */
 @custom-variant dark (&:is(.dark *));
+/* stylelint-enable at-rule-no-unknown */
 
 :root {
   --font-size: 16px;

@@ -142,7 +142,7 @@ export function Assets() {
                   <td className="px-4 py-4 text-sm text-gray-600">{r.purchaseDate ?? '-'}</td>
                   <td className="px-4 py-4 text-sm font-semibold text-gray-900">{fmt(r.purchasePrice)}</td>
                   <td className="px-4 py-4">
-                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[r.status] ?? 'bg-gray-100 text-gray-800'}`}>
+                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[r.status ?? ''] ?? 'bg-gray-100 text-gray-800'}`}>
                       {r.status}
                     </span>
                   </td>

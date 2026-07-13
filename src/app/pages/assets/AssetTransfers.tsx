@@ -47,8 +47,7 @@ export function AssetTransfers() {
   };
 
   const handleSubmit = () => {
-    const payload = { ...form, asset: { id: form.assetId } };
-    delete (payload as any).assetId;
+    const payload = { ...form };
     if (selected) {
       assetService.updateTransfer(selected.id, payload).then(() => { load(); close(); }).catch(console.error);
     } else {
@@ -94,7 +93,7 @@ export function AssetTransfers() {
                   <td className="px-4 py-4 text-sm text-gray-600">{r.fromLocation ?? '-'}</td>
                   <td className="px-4 py-4 text-sm text-gray-600">{r.toLocation ?? '-'}</td>
                   <td className="px-4 py-4 text-sm text-gray-600">{r.transferDate ?? '-'}</td>
-                  <td className="px-4 py-4"><span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[r.status] ?? 'bg-gray-100 text-gray-800'}`}>{r.status}</span></td>
+                  <td className="px-4 py-4"><span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[r.status ?? ''] ?? 'bg-gray-100 text-gray-800'}`}>{r.status}</span></td>
                   <td className="px-4 py-4 text-sm">
                     <div className="flex items-center gap-2">
                       <button onClick={() => { setSelected(r); setModal('view'); }} className="text-blue-600 hover:text-blue-800">View</button>
