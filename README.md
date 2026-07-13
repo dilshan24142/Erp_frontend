@@ -3,12 +3,14 @@
 A modern Enterprise Resource Planning (ERP) frontend built with **React 18**, **TypeScript**, **Vite**, and **Tailwind CSS**, integrated with a **Spring Boot REST API**.
 
 ## 📖 Table of Contents
-- Key Features
-- Tech Stack
-- Folder Structure
-- Prerequisites
-- Installation
-- Environment Configuration
+
+- [🚀 Key Features](#-key-features)
+- [🛠️ Tech Stack](#️-tech-stack)
+- [📂 Project Structure](#-project-structure)
+- [📋 Prerequisites](#prerequisites)
+- [⚙️ Installation & Running](#installation--running)
+- [🌍 Environment Configuration](#️-environment-configuration)
+- [📦 Application Modules](#-application-modules)
 
 
 ## 🚀 Key Features
@@ -89,13 +91,13 @@ erp-system-ui/
 ```
 
 
-## Prerequisites
+## 📋 Prerequisites
 Ensure you have installed:
 - **Node.js** v18 or newer
 - **pnpm** v8 or newer — `npm install -g pnpm`
 - Backend Spring Boot running at `http://localhost:8081`
 
-## Installation & Running
+## ⚙️ Installation & Running
 ```bash
 # 1. Clone the repository
 git clone <repository-url>
@@ -110,7 +112,7 @@ pnpm install
 # 4. Run development server
 pnpm dev
 ```
-## ⚙️ Environment Configuration
+## 🌍 Environment Configuration
 
 Create a `.env.local` file in the project root:
 
