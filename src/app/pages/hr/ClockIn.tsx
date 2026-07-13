@@ -27,24 +27,31 @@ export function ClockIn() {
   };
 
   const fetchTodayAttendance = () => {
-    const localLogs = loadLocalLogs().filter((item: any) => item.date === today);
-    
-    if (hrExtService.getAllAttendance) {
-      hrExtService.getAllAttendance({ size: 100 })
-        .then((res: any) => {
-          const apiData = res.content || res.data || [];
-          const filteredApi = apiData.filter((item: any) => item.date === today);
-          // Combining both Local and API logs
-          const combined = [...filteredApi, ...localLogs.filter(l => !filteredApi.some((a: any) => a.id === l.id))];
-          setTodayLogs(combined);
-        })
-        .catch(() => {
-          setTodayLogs(localLogs);
-        });
-    } else {
+  const localLogs = loadLocalLogs().filter(
+    (item: any) => item.date === today
+  );
+
+  hrExtService
+    .getAttendanceByDate(today)
+    .then((apiData) => {
+      const filteredApi = Array.isArray(apiData) ? apiData : [];
+
+      const combined = [
+        ...filteredApi,
+        ...localLogs.filter(
+          (localItem) =>
+            !filteredApi.some(
+              (apiItem: any) => apiItem.id === localItem.id
+            )
+        ),
+      ];
+
+      setTodayLogs(combined);
+    })
+    .catch(() => {
       setTodayLogs(localLogs);
-    }
-  };
+    });
+};
 
   useEffect(() => {
     employeeService.getAll({ size:200 })
