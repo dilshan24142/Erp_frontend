@@ -1,4 +1,4 @@
-# ─── API & Internal Docs (do not expose) ───────────────────────
+# ─── API & Internal Docs ────────────────────────────────────────
 API.md
 ATTRIBUTIONS.md
 guidelines/
@@ -15,7 +15,7 @@ dist-ssr/
 build/
 out/
 
-# ─── Environment Variables (sensitive!) ─────────────────────────
+# ─── Environment Variables ──────────────────────────────────────
 .env
 .env.local
 .env.development.local
@@ -23,14 +23,17 @@ out/
 .env.production.local
 .env.*.local
 
+# ─── Vercel ─────────────────────────────────────────────────────
+.vercel/
+
 # ─── Vite Cache ─────────────────────────────────────────────────
 .vite/
 vite.config.ts.timestamp-*
 
-# ─── TypeScript Build Info ───────────────────────────────────────
+# ─── TypeScript Build Info ──────────────────────────────────────
 *.tsbuildinfo
 
-# ─── Editor / IDE ────────────────────────────────────────────────
+# ─── Editor / IDE ───────────────────────────────────────────────
 .vscode/settings.json
 .vscode/launch.json
 .vscode/extensions.json
@@ -41,7 +44,7 @@ vite.config.ts.timestamp-*
 *.sln
 *.sw?
 
-# ─── OS Files ────────────────────────────────────────────────────
+# ─── OS Files ───────────────────────────────────────────────────
 .DS_Store
 .DS_Store?
 ._*
@@ -51,7 +54,7 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# ─── Logs ────────────────────────────────────────────────────────
+# ─── Logs ───────────────────────────────────────────────────────
 logs/
 *.log
 npm-debug.log*
@@ -59,11 +62,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# ─── Testing / Coverage ──────────────────────────────────────────
+# ─── Testing / Coverage ─────────────────────────────────────────
 coverage/
 .nyc_output/
 
-# ─── Misc ────────────────────────────────────────────────────────
+# ─── Misc ───────────────────────────────────────────────────────
 *.local
 .cache/
-node_modules
