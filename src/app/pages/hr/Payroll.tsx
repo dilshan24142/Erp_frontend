@@ -67,27 +67,44 @@ export function Payroll() {
   };
 
   const handleSubmit = async () => {
-    const netSalary = form.basicSalary + (form.allowances ?? 0) - (form.deductions ?? 0);
-    const payload = {
-      employee: { id: form.employeeId },
-      year: form.year,
-      month: form.month,
-      basicSalary: form.basicSalary,
-      allowances: form.allowances,
-      deductions: form.deductions,
-      netSalary,
-      status: selected?.status ?? 'DRAFT',
-    };
+  const selectedEmployee = employees.find(
+    (emp) => emp.id === form.employeeId
+  );
 
-    if (selected) {
-      await hrExtService.updatePayroll(selected.id, payload);
-    } else {
-      await hrExtService.createPayroll(payload);
-    }
-    close();
-    load();
+  if (!selectedEmployee) {
+    alert('Please select an employee.');
+    return;
+  }
+
+  const netSalary =
+    form.basicSalary +
+    (form.allowances ?? 0) -
+    (form.deductions ?? 0);
+
+  const payload: Partial<Payroll> = {
+    employee: {
+      id: selectedEmployee.id,
+      fullName: selectedEmployee.fullName,
+      employeeId: selectedEmployee.employeeId,
+    },
+    year: form.year,
+    month: form.month,
+    basicSalary: form.basicSalary,
+    allowances: form.allowances,
+    deductions: form.deductions,
+    netSalary,
+    status: selected?.status ?? 'DRAFT',
   };
 
+  if (selected) {
+    await hrExtService.updatePayroll(selected.id, payload);
+  } else {
+    await hrExtService.createPayroll(payload);
+  }
+
+  close();
+  load();
+};
   const handleDelete = async () => {
     if (!deleteConfirm) return;
     await hrExtService.deletePayroll(deleteConfirm.id);
