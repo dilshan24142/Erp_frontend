@@ -34,7 +34,7 @@ export function PurchaseRequisitions() {
   const [departments, setDepartments] = useState<any[]>([]);
   useEffect(() => {
     import('@/services/employeeService').then(m => m.default.getAll({ size: 500 }).then(res => setEmployees(res.content ?? [])));
-    import('@/services/departmentService').then(m => m.default.getAll().then(res => setDepartments(Array.isArray(res) ? res : res.content ?? [])));
+    import('@/services/departmentService').then(m => m.default.getAll().then(res => setDepartments(Array.isArray(res) ? res : res ?? [])));
   }, []);
 
   const load = () => {
