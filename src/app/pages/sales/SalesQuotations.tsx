@@ -68,22 +68,53 @@ export function SalesQuotations() {
     setModal('form');
   };
 
-  const handleSubmit = () => {
-    const payload = {
-      ...form,
-      customer: { id: form.customerId },
-    };
-    delete (payload as any).customerId;
-    if (selected) {
-      salesQuotationService.update(selected.id, payload)
-        .then(() => { load(); close(); })
-        .catch(console.error);
-    } else {
-      salesQuotationService.create(payload)
-        .then(() => { load(); close(); })
-        .catch(console.error);
-    }
+  const handleSubmit = async () => {
+  if (!form.quotationNumber.trim()) {
+    alert('Please enter the quotation number.');
+    return;
+  }
+
+  if (form.customerId === 0) {
+    alert('Please select a customer.');
+    return;
+  }
+
+  const selectedCustomer = customers.find(
+    (customer) => customer.id === form.customerId
+  );
+
+  if (!selectedCustomer) {
+    alert('Selected customer could not be found.');
+    return;
+  }
+
+  const payload: Partial<SalesQuotation> = {
+    quotationNumber: form.quotationNumber.trim(),
+    customer: {
+      id: selectedCustomer.id,
+      name: selectedCustomer.name,
+    },
+    date: form.date,
+    validUntil: form.validUntil,
+    status: form.status,
+    notes: form.notes,
+    total: form.total,
   };
+
+  try {
+    if (selected) {
+      await salesQuotationService.update(selected.id, payload);
+    } else {
+      await salesQuotationService.create(payload);
+    }
+
+    await load();
+    close();
+  } catch (error) {
+    console.error('Failed to save quotation:', error);
+    alert('Failed to save the quotation.');
+  }
+};
 
   const handleDelete = async () => {
     if (!deleteConfirm) return;

@@ -65,18 +65,45 @@ export function SalesInvoices() {
   };
 
   const handleSubmit = () => {
-    const payload = { ...form, customer: { id: form.customerId } };
-    delete (payload as any).customerId;
-    if (selected) {
-      salesInvoiceService.update(selected.id, payload)
-        .then(() => { load(); close(); })
-        .catch(console.error);
-    } else {
-      salesInvoiceService.create(payload)
-        .then(() => { load(); close(); })
-        .catch(console.error);
-    }
+  const selectedCustomer = customers.find(
+    customer => customer.id === form.customerId
+  );
+
+  if (!selectedCustomer) {
+    alert('Please select a customer');
+    return;
+  }
+
+  const payload: Partial<SalesInvoice> = {
+    invoiceNumber: form.invoiceNumber,
+    customer: {
+      id: form.customerId,
+      name: selectedCustomer.name,
+    },
+    date: form.date,
+    dueDate: form.dueDate,
+    status: form.status,
+    total: form.total,
   };
+
+  if (selected) {
+    salesInvoiceService
+      .update(selected.id, payload)
+      .then(() => {
+        load();
+        close();
+      })
+      .catch(console.error);
+  } else {
+    salesInvoiceService
+      .create(payload)
+      .then(() => {
+        load();
+        close();
+      })
+      .catch(console.error);
+  }
+};
 
   const handleDelete = async () => {
     if (!deleteConfirm) return;
