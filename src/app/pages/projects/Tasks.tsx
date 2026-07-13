@@ -68,24 +68,41 @@ export function Tasks() {
   };
 
   const handleSubmit = () => {
-    const payload = {
-      ...form,
-      project: { id: form.projectId },
-      assignedTo: { id: form.assigneeId },
-    };
-    delete (payload as any).projectId;
-    delete (payload as any).assigneeId;
-
-    if (selected) {
-      taskService.update(selected.id, payload)
-        .then(() => { load(); close(); })
-        .catch(console.error);
-    } else {
-      taskService.create(payload)
-        .then(() => { load(); close(); })
-        .catch(console.error);
-    }
+  const payload = {
+    ...form,
+    project: {
+      id: form.projectId,
+      name: selected?.project?.name ?? "",
+    },
+    assignedTo: {
+      id: form.assigneeId,
+      fullName: selected?.assignedTo?.fullName ?? "",
+    },
   };
+
+  delete (payload as any).projectId;
+  delete (payload as any).assigneeId;
+
+  if (selected) {
+    taskService
+      .update(selected.id, payload)
+      .then(() => {
+        load();
+        close();
+      })
+      .catch(console.error);
+  } else {
+    taskService
+      .create(payload)
+      .then(() => {
+        load();
+        close();
+      })
+      .catch(console.error);
+  }
+};
+
+
 
   const handleDelete = async () => {
     if (!deleteConfirm) return;
