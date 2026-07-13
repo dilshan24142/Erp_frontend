@@ -245,6 +245,7 @@ export function Tasks() {
         open={!!deleteConfirm}
         onClose={() => setDeleteConfirm(null)}
         title="Confirm Delete"
+        
         size="sm"
         footer={
           <>
