@@ -52,12 +52,25 @@ export function TimeTracking() {
   };
 
   const handleSubmit = () => {
-    const payload = {
-      ...form,
-      employee: { id: form.employeeId },
-      project: { id: form.projectId },
-      task: form.taskId ? { id: form.taskId } : null,
-    };
+     const payload: Partial<TimeEntry> = {
+  employee: {
+    id: form.employeeId,
+    fullName: "",
+  },
+  project: {
+    id: form.projectId,
+    name: "",
+  },
+  task: form.taskId
+    ? {
+        id: form.taskId,
+        title: "",
+      }
+    : undefined,
+  date: form.date,
+  hours: form.hours,
+  description: form.description,
+};
     delete (payload as any).employeeId;
     delete (payload as any).projectId;
     delete (payload as any).taskId;
