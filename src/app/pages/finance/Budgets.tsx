@@ -60,48 +60,60 @@ export function Budgets() {
   const close = () => { setModal(null); setSelected(null); setForm(blank()); };
 
   const openEdit = (b: Budget) => {
-    setSelected(b);
-    setForm({
-      name: b.name ?? '',
-      departmentId: b.department?.id ?? 0,
-      periodYear: b.periodYear ?? new Date().getFullYear(),
-      periodMonth: b.periodMonth ?? new Date().getMonth() + 1,
-      budgetType: b.budgetType ?? 'OPERATIONAL',
-      amount: b.amount ?? 0,
-      status: b.status ?? 'DRAFT',
-      notes: b.notes ?? '',
-    });
-    setModal('form');
+  setSelected(b);
+
+  setForm({
+    name: b.name ?? '',
+    departmentId: b.department?.id ?? 0,
+    periodYear: b.periodYear ?? new Date().getFullYear(),
+    periodMonth: b.periodMonth ?? new Date().getMonth() + 1,
+    budgetType: 'OPERATIONAL',
+    amount: b.budgetedAmount ?? 0,
+    status: b.status ?? 'DRAFT',
+    notes: b.notes ?? '',
+  });
+
+  setModal('form');
+};
+
+ const handleSubmit = async () => {
+  if (!form.name.trim()) {
+    alert('Budget name is required!');
+    return;
+  }
+
+  const selectedDepartment = departments.find(
+    (department) => department.id === form.departmentId
+  );
+
+  const payload: Partial<Budget> = {
+    name: form.name,
+    department: selectedDepartment
+      ? {
+          id: selectedDepartment.id,
+          name: selectedDepartment.name,
+        }
+      : undefined,
+    periodYear: form.periodYear,
+    periodMonth: form.periodMonth,
+    budgetedAmount: form.amount,
+    status: form.status,
+    notes: form.notes,
   };
 
-  const handleSubmit = async () => {
-    if (!form.name?.trim()) {
-      alert('Budget name is required!');
-      return;
+  try {
+    if (selected) {
+      await budgetService.update(selected.id, payload);
+    } else {
+      await budgetService.create(payload);
     }
-    const payload = {
-      name: form.name,
-      department: form.departmentId ? { id: form.departmentId } : null,
-      periodYear: form.periodYear,
-      periodMonth: form.periodMonth,
-      budgetType: form.budgetType,
-      amount: form.amount,
-      status: form.status,
-      notes: form.notes,
-    };
 
-    try {
-      if (selected) {
-        await budgetService.update(selected.id, payload);
-      } else {
-        await budgetService.create(payload);
-      }
-      load();
-      close();
-    } catch (err) {
-      console.error('Failed to save budget', err);
-    }
-  };
+    load();
+    close();
+  } catch (err) {
+    console.error('Failed to save budget', err);
+  }
+};
 
   const handleDelete = async () => {
     if (!deleteConfirm) return;
@@ -156,10 +168,10 @@ export function Budgets() {
                   <td className="px-4 py-4 text-sm text-gray-600">
                     {b.periodYear ?? '-'}{b.periodMonth ? `/${String(b.periodMonth).padStart(2, '0')}` : ''}
                   </td>
-                  <td className="px-4 py-4 text-sm text-gray-600">{b.budgetType ?? '-'}</td>
-                  <td className="px-4 py-4 text-sm text-gray-900">{fmt(b.amount)}</td>
+                  <td className="px-4 py-4 text-sm text-gray-600">-</td>
+                  <td className="px-4 py-4 text-sm text-gray-900">{fmt(b.budgetedAmount)}</td>
                   <td className="px-4 py-4 text-sm text-orange-600">{fmt(b.actualAmount)}</td>
-                  <td className="px-4 py-4 text-sm text-green-600">{fmt((b.amount ?? 0) - (b.actualAmount ?? 0))}</td>
+                  <td className="px-4 py-4 text-sm text-green-600">{fmt((b.budgetedAmount ?? 0) - (b.actualAmount ?? 0))}</td>
                   <td className="px-4 py-4">
                     <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[b.status] ?? 'bg-gray-100 text-gray-800'}`}>{b.status}</span>
                   </td>
@@ -185,10 +197,10 @@ export function Budgets() {
             <DetailRow label="Department" value={selected.department?.name ?? '-'} />
             <DetailRow label="Period Year" value={String(selected.periodYear ?? '-')} />
             <DetailRow label="Period Month" value={String(selected.periodMonth ?? '-')} />
-            <DetailRow label="Type" value={selected.budgetType ?? '-'} />
-            <DetailRow label="Budget" value={fmt(selected.amount)} />
+            <DetailRow label="Type" value="-" />
+            <DetailRow label="Budget" value={fmt(selected.budgetedAmount)} />
             <DetailRow label="Spent" value={fmt(selected.actualAmount)} />
-            <DetailRow label="Remaining" value={fmt((selected.amount ?? 0) - (selected.actualAmount ?? 0))} />
+            <DetailRow label="Remaining" value={fmt((selected.budgetedAmount ?? 0) - (selected.actualAmount ?? 0))} />
             <DetailRow label="Status" value={
               <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColor[selected.status] ?? 'bg-gray-100 text-gray-800'}`}>{selected.status}</span>
             } />
