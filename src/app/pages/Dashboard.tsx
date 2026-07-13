@@ -90,8 +90,8 @@ export function Dashboard() {
   // Activity feed
   type FeedItem = { id: string; label: string; sub: string; status: string; date?: string; type: 'so' | 'po' };
   const feed: FeedItem[] = [
-    ...recentOrders.map(o => ({ id: `so-${o.id}`, label: o.orderNumber, sub: o.customer?.name ?? '-', status: o.status, date: o.date, type: 'so' as const })),
-    ...recentPO.map(p => ({ id: `po-${p.id}`, label: p.poNumber, sub: p.vendor?.name ?? '-', status: p.status, date: p.date, type: 'po' as const })),
+    ...recentOrders.map(o => ({ id: `so-${o.id}`, label: o.orderNumber, sub: o.customer?.companyName ?? '-', status: o.status, date: o.date, type: 'so' as const })),
+    ...recentPO.map(p => ({ id: `po-${p.id}`, label: p.poNumber, sub: p.vendor?.companyName ?? '-', status: p.status, date: p.date, type: 'po' as const })),
   ].sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '')).slice(0, 10);
 
   // ── KPI cards ─────────────────────────────────────────────────────
@@ -336,7 +336,7 @@ export function Dashboard() {
                   {recentOrders.map(o => (
                     <tr key={o.id} className="hover:bg-slate-50 cursor-pointer transition-colors" onClick={() => navigate('/sales/orders')}>
                       <td className="py-3 font-mono text-xs text-gray-500">{o.orderNumber}</td>
-                      <td className="py-3 text-sm text-gray-800 font-medium max-w-[120px] truncate">{o.customer?.name ?? '-'}</td>
+                      <td className="py-3 text-sm text-gray-800 font-medium max-w-[120px] truncate">{o.customer?.companyName ?? '-'}</td>
                       <td className="py-3 text-right text-xs text-gray-600 whitespace-nowrap tabular-nums">{o.total ? lkrFull(o.total) : '-'}</td>
                       <td className="py-3 text-right"><StatusBadge status={o.status} map={soStatusColor} /></td>
                     </tr>
@@ -372,7 +372,7 @@ export function Dashboard() {
                   {recentPO.map(p => (
                     <tr key={p.id} className="hover:bg-slate-50 cursor-pointer transition-colors" onClick={() => navigate('/purchasing/orders')}>
                       <td className="py-3 font-mono text-xs text-gray-500">{p.poNumber}</td>
-                      <td className="py-3 text-sm text-gray-800 font-medium max-w-[120px] truncate">{p.vendor?.name ?? '-'}</td>
+                      <td className="py-3 text-sm text-gray-800 font-medium max-w-[120px] truncate">{p.vendor?.companyName ?? '-'}</td>
                       <td className="py-3 text-right text-xs text-gray-600 whitespace-nowrap tabular-nums">{p.total ? lkrFull(p.total) : '-'}</td>
                       <td className="py-3 text-right"><StatusBadge status={p.status} map={poStatusColor} /></td>
                     </tr>
