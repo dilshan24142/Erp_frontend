@@ -55,26 +55,41 @@ export function Leave() {
   };
 
   const handleSubmit = async () => {
-    if (!form.employeeId || !form.startDate || !form.endDate) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-    const payload = {
-      employee: { id: form.employeeId },
-      leaveType: form.leaveType,
-      startDate: form.startDate,
-      endDate: form.endDate,
-      reason: form.reason,
-    };
-    try {
-      await hrExtService.createLeaveRequest(payload);
-      load();
-      close();
-    } catch (err) {
-      console.error('Failed to submit leave', err);
-      alert('Failed to submit leave request.');
-    }
+  if (!form.employeeId || !form.startDate || !form.endDate) {
+    alert('Please fill in all required fields.');
+    return;
+  }
+
+  const selectedEmployee = employees.find(
+    (emp) => emp.id === form.employeeId
+  );
+
+  if (!selectedEmployee) {
+    alert('Please select an employee.');
+    return;
+  }
+
+  const payload: Partial<LeaveRequest> = {
+    employee: {
+      id: selectedEmployee.id,
+      fullName: selectedEmployee.fullName,
+      employeeId: selectedEmployee.employeeId,
+    },
+    leaveType: form.leaveType,
+    startDate: form.startDate,
+    endDate: form.endDate,
+    reason: form.reason,
   };
+
+  try {
+    await hrExtService.createLeaveRequest(payload);
+    load();
+    close();
+  } catch (err) {
+    console.error('Failed to submit leave', err);
+    alert('Failed to submit leave request.');
+  }
+};
 
   const handleApprove = async (status: string) => {
     if (!selected) return;
