@@ -66,25 +66,63 @@ export function PurchaseRequisitions() {
     setModal('form');
   };
 
-  const handleSubmit = () => {
-    const payload = {
-      ...form,
-      requestedBy: form.requestedById ? { id: form.requestedById } : null,
-      department: form.departmentId ? { id: form.departmentId } : null,
-    };
-    delete (payload as any).requestedById;
-    delete (payload as any).departmentId;
+ const handleSubmit = async () => {
+  const selectedEmployee = employees.find(
+    employee => employee.id === form.requestedById
+  );
 
-    if (selected) {
-      purchaseRequisitionService.update(selected.id, payload)
-        .then(() => { load(); close(); })
-        .catch(console.error);
-    } else {
-      purchaseRequisitionService.create(payload)
-        .then(() => { load(); close(); })
-        .catch(console.error);
-    }
+  const selectedDepartment = departments.find(
+    department => department.id === form.departmentId
+  );
+
+  if (!form.prNumber.trim()) {
+    alert('Please enter the requisition number.');
+    return;
+  }
+
+  if (!selectedEmployee) {
+    alert('Please select the requested employee.');
+    return;
+  }
+
+  if (!selectedDepartment) {
+    alert('Please select the department.');
+    return;
+  }
+
+  const payload: Partial<PurchaseRequisition> = {
+    prNumber: form.prNumber.trim(),
+
+    requestedBy: {
+      id: selectedEmployee.id,
+      fullName: selectedEmployee.fullName,
+    },
+
+    department: {
+      id: selectedDepartment.id,
+      name: selectedDepartment.name,
+    },
+
+    date: form.date,
+    neededBy: form.neededBy,
+    status: form.status,
+    notes: form.notes,
   };
+
+  try {
+    if (selected) {
+      await purchaseRequisitionService.update(selected.id, payload);
+    } else {
+      await purchaseRequisitionService.create(payload);
+    }
+
+    await load();
+    close();
+  } catch (error) {
+    console.error('Failed to save purchase requisition:', error);
+    alert('Failed to save purchase requisition.');
+  }
+};
 
   const handleDelete = async () => {
     if (!deleteConfirm) return;
