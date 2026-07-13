@@ -141,3 +141,6 @@ VITE_API_BASE_URL=http://localhost:8081/api/v1
 ## 🤝 Contributing
 
 Contributions are welcome. Please create a pull request before making major changes.
+## 📄 License
+
+This project is intended for educational and learning purposes.
