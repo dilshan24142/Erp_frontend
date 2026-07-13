@@ -57,7 +57,13 @@ export function Milestones() {
   };
 
   const handleSubmit = () => {
-    const payload = { ...form, project: { id: form.projectId } };
+    const payload = {
+  ...form,
+  project: {
+    id: form.projectId,
+    name: selected?.project?.name ?? "",
+  },
+};
     delete (payload as any).projectId;
 
     if (selected) {
