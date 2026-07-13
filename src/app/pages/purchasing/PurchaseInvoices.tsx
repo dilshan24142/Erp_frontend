@@ -64,7 +64,17 @@ export function PurchaseInvoices() {
   };
 
   const handleSubmit = () => {
-    const payload = { ...form, vendor: form.vendorId ? { id: form.vendorId } : null };
+    const selectedVendor = vendors.find(v => v.id === form.vendorId);
+
+    const payload = {
+       ...form,
+       vendor: selectedVendor
+    ?    {
+             id: selectedVendor.id,
+             name: selectedVendor.name,
+         }
+       : undefined,
+};
     delete (payload as any).vendorId;
     if (selected) {
       purchaseInvoiceService.update(selected.id, payload)
