@@ -74,29 +74,40 @@ export function AccountsReceivable() {
     setModal('form');
   };
 
-  const handleSubmit = async () => {
-    const payload = {
-      customer: form.customerId ? { id: form.customerId } : null,
-      invoiceNumber: form.invoiceNumber,
-      invoiceDate: form.invoiceDate,
-      dueDate: form.dueDate,
-      amount: form.amount,
-      paidAmount: form.paidAmount,
-      status: form.status,
-      notes: form.notes,
-    };
-    try {
-      if (selected) {
-        await accountsReceivableService.update(selected.id, payload);
-      } else {
-        await accountsReceivableService.create(payload);
-      }
-      load();
-      close();
-    } catch (err) {
-      console.error('Save failed', err);
-    }
+ const handleSubmit = async () => {
+  const selectedCustomer = customers.find(
+    (c) => c.id === form.customerId
+  );
+
+  const payload: Partial<AccountsReceivable> = {
+    customer: selectedCustomer
+      ? {
+          id: selectedCustomer.id,
+          name: selectedCustomer.name,
+        }
+      : undefined,
+    invoiceNumber: form.invoiceNumber,
+    invoiceDate: form.invoiceDate,
+    dueDate: form.dueDate,
+    amount: form.amount,
+    paidAmount: form.paidAmount,
+    status: form.status,
+    notes: form.notes,
   };
+
+  try {
+    if (selected) {
+      await accountsReceivableService.update(selected.id, payload);
+    } else {
+      await accountsReceivableService.create(payload);
+    }
+
+    load();
+    close();
+  } catch (err) {
+    console.error('Save failed', err);
+  }
+};
 
   const handleDelete = async () => {
     if (!deleteConfirm) return;
