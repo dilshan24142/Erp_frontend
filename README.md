@@ -150,3 +150,8 @@ Developed by the NexaERP Development Team.
 ## 📞 Support
 
 For issues and feature requests, please open an issue in this repository.
+
+## Backend Connection
+
+Backend Repository:
+[ERP Backend](https://github.com/dilshan24142/Erp_Backend)
