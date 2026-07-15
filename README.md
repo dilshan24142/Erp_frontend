@@ -144,16 +144,14 @@ VITE_API_BASE_URL=http://localhost:8081/api/v1
 | System | `/system` | Users, Roles, Settings, Audit Logs |
 ---
 
-## 🤝 Contributing
+## Contributing
 
 Contributions are welcome. Please create a pull request before making major changes.
-## 📄 License
 
-This project is intended for educational and learning purposes.
-## 👨‍💻 Authors
+## Authors
 
 Developed by the NexaERP Development Team.
-## 📞 Support
+## Support
 
 For issues and feature requests, please open an issue in this repository.
 
