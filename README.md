@@ -3,7 +3,6 @@
 A modern Enterprise Resource Planning (ERP) frontend built with **React 18**, **TypeScript**, **Vite**, and **Tailwind CSS**, integrated with a **Spring Boot REST API**.
 
 ##  Table of Contents
-- Key Features
 - Tech Stack
 - Folder Structure
 - Prerequisites
